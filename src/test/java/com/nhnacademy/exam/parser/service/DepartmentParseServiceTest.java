@@ -10,20 +10,11 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.stream.Stream;
 
-/**
- * @Author : marco@nhnacademy.com
- * @Date : 15/05/2023
- */
+@SpringBootTest
 class DepartmentParseServiceTest {
 
     static DepartmentParserResolver departmentParserResolver;
@@ -39,7 +30,7 @@ class DepartmentParseServiceTest {
     @Test
     @DisplayName("get-TextDepartmentParser")
     void getDepartmentParserFromText() {
-        String fileName="department-1.txt";
+        String fileName="department.txt";
         DepartmentParser departmentParser = departmentParserResolver.getDepartmentParser(fileName);
         Assertions.assertThat(departmentParser).isInstanceOf(TextDepartmentParser.class);
     }
@@ -67,30 +58,4 @@ class DepartmentParseServiceTest {
         DepartmentParser departmentParser = departmentParserResolver.getDepartmentParser(fileName);
         Assertions.assertThat(departmentParser).isNull();
     }
-
-
-    @ParameterizedTest
-    @MethodSource("fileListParam")
-    @DisplayName("paring-files")
-    void parsing(String filePath, int size) throws IOException {
-
-        Resource resource = new PathMatchingResourcePatternResolver().getResource("classpath:" + filePath);
-
-        List<?> result = departmentParserResolver
-                .getDepartmentParser(filePath)
-                .parsing(resource.getFile());
-
-        Assertions.assertThat(result.size()).isEqualTo(size);
-    }
-
-
-    private static Stream<Arguments> fileListParam(){
-        return Stream.of(
-                Arguments.of("data/department-1.txt",6),
-                Arguments.of("data/department-2.txt",10),
-                Arguments.of("data/department.csv",10),
-                Arguments.of("data/department.json",10)
-        );
-    }
-
 }

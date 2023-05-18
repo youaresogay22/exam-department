@@ -4,9 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MidtermApplication {
+public class ExamApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MidtermApplication.class, args);
+        SpringApplication.run(ExamApplication.class, args);
     }
+
 }
