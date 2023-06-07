@@ -1,5 +1,5 @@
 ### department 등록
-POST http://localhost:8080/department
+POST http://localhost:8080/departments
 Content-Type: application/json
 X-USER-ID:nhnacademy
 
