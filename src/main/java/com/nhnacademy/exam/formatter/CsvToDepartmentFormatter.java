@@ -1,14 +1,14 @@
 package com.nhnacademy.exam.formatter;
 
-import com.nhnacademy.exam.domain.DepartmentDTO;
+import com.nhnacademy.exam.domain.DepartmentAndMemberDTO;
 import com.nhnacademy.exam.exception.DataNotCompatibleException;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.util.StringUtils;
 
-public class CsvToDepartmentFormatter implements Converter<String[], DepartmentDTO> {
+public class CsvToDepartmentFormatter implements Converter<String[], DepartmentAndMemberDTO> {
     @Override
-    public DepartmentDTO convert(String[] source) {
-        DepartmentDTO department = new DepartmentDTO();
+    public DepartmentAndMemberDTO convert(String[] source) {
+        DepartmentAndMemberDTO department = new DepartmentAndMemberDTO();
 
         if (source.length != 4)
             throw new DataNotCompatibleException();

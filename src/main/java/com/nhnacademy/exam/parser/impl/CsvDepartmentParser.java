@@ -1,17 +1,12 @@
 package com.nhnacademy.exam.parser.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nhnacademy.exam.domain.DepartmentDTO;
+import com.nhnacademy.exam.domain.DepartmentAndMemberDTO;
 import com.nhnacademy.exam.formatter.CsvToDepartmentFormatter;
 import com.nhnacademy.exam.parser.DepartmentParser;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.DefaultConversionService;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
@@ -34,27 +29,21 @@ public class CsvDepartmentParser implements DepartmentParser {
     }
 
     @Override
-    public List<DepartmentDTO> parsing(File file) throws IOException {
-        List<DepartmentDTO> list = new ArrayList<>();
+    public List<DepartmentAndMemberDTO> parsing(File file) throws IOException {
+        List<DepartmentAndMemberDTO> list = new ArrayList<>();
 
-        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        Resource[] resources = resolver.getResources("classpath:data/*.csv");
+        try (CSVReader csvReader = new CSVReaderBuilder(new FileReader(file))
+                .withSkipLines(1)
+                .build()) {
 
-        for (Resource resource : resources) {
-
-            try (CSVReader csvReader = new CSVReaderBuilder(new FileReader(resource.getFile()))
-                    .withSkipLines(1)
-                    .build()) {
-
-                csvReader.forEach(line ->
-                        {
-                            if (line.length == 4) {
-                                list.add(conversionService.convert(line, DepartmentDTO.class));
-                            }
+            csvReader.forEach(line ->
+                    {
+                        if (line.length == 4) {
+                            list.add(conversionService.convert(line, DepartmentAndMemberDTO.class));
                         }
-                );
+                    }
+            );
 
-            }
         }
 
         return list;

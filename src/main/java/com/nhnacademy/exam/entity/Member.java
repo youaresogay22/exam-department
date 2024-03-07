@@ -5,17 +5,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-public class Department {
+public class Member {
     @Id
-    private String id;//부서코드
+    private String id;
     private String name;
-
-    @OneToMany
-    private List<Member> member;
+    @ManyToOne
+    private Department department;
 }
