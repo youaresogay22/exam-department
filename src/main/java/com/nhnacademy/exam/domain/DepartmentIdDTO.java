@@ -1,11 +1,14 @@
 package com.nhnacademy.exam.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
+@NoArgsConstructor
 public class DepartmentIdDTO {
     private String id;
 }
